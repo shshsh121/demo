@@ -1,18 +1,17 @@
 steps:
-
   - id: get-kube-config
-    dir: hello-cloudbuild
+    dir: hello-cloudbuild-v2
     name: gcr.io/cloud-builders/kubectl
     env:
-    - CLOUDSDK_CORE_PROJECT=${_CLOUDSDK_CORE_PROJECT}
-    - CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}
-    - CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}
-    - KUBECONFIG=/workspace/.kube/config
+      - CLOUDSDK_CORE_PROJECT=$PROJECT_ID
+      - CLOUDSDK_COMPUTE_REGION=${_REGION}
+      - CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}
+      - KUBECONFIG=/workspace/.kube/config
     args:
-       - cluster-info
+      - cluster-info
 
   - id: deploy
-    dir: hello-cloudbuild
+    dir: hello-cloudbuild-v2
     name: cloudnatived/helm-cloudbuilder
     env:
       - KUBECONFIG=/workspace/.kube/config
@@ -20,12 +19,13 @@ steps:
       - helm
       - upgrade
       - --install
+      - --create-namespace
       - ${TAG_NAME}-demo
       - --namespace=${TAG_NAME}-demo
       - --values
       - k8s/demo/${TAG_NAME}-values.yaml
       - --set
-      - container.image=gcr.io/${PROJECT_ID}/demo
+      - container.image=${_REGION}-docker.pkg.dev/$PROJECT_ID/demo/demo
       - --set
       - container.tag=${COMMIT_SHA}
       - ./k8s/demo
