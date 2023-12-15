@@ -16,6 +16,7 @@ steps:
     env:
       - KUBECONFIG=/workspace/.kube/config
     args:
+      - echo ${TAG_NAME} ${PROJECT_ID} ${_CLOUDSDK_COMPUTE_ZONE}
       - helm
       - upgrade
       - --install
