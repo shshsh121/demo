@@ -1,6 +1,6 @@
 steps:
   - id: get-kube-config
-    dir: hello-cloudbuild
+    dir: hello-cloudbuild-v2
     name: gcr.io/cloud-builders/kubectl
     env:
       - CLOUDSDK_CORE_PROJECT=${PROJECT_ID}
@@ -10,7 +10,7 @@ steps:
     args:
       - cluster-info
   - id: deploy
-    dir: hello-cloudbuild
+    dir: hello-cloudbuild-v2
     name: cloudnatived/helm-cloudbuilder
     env:
       - KUBECONFIG=/workspace/.kube/config
