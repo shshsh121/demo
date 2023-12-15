@@ -10,7 +10,7 @@ steps:
     args:
       - cluster-info
   - id: deploy
-    dir: hello-cloudbuild
+    dir: hello-cloudbuild-v2
     name: cloudnatived/helm-cloudbuilder
     env:
       - KUBECONFIG=/workspace/.kube/config
