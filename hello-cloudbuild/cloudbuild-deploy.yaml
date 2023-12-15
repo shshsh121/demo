@@ -10,7 +10,7 @@ steps:
     - KUBECONFIG=/workspace/.kube/config
     args:
        - cluster-info
-       
+
   - id: update-deploy-tag
     dir: hello-cloudbuild
     name: gcr.io/cloud-builders/gcloud
