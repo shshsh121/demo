@@ -3,13 +3,12 @@ steps:
     dir: hello-cloudbuild
     name: gcr.io/cloud-builders/kubectl
     env:
-      - CLOUDSDK_CORE_PROJECT=$PROJECT_ID
+      - CLOUDSDK_CORE_PROJECT=${PROJECT_ID}
       - CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}
       - CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}
       - KUBECONFIG=/workspace/.kube/config
     args:
       - cluster-info
-
   - id: deploy
     dir: hello-cloudbuild
     name: cloudnatived/helm-cloudbuilder
@@ -25,7 +24,7 @@ steps:
       - --values
       - k8s/demo/${TAG_NAME}-values.yaml
       - --set
-      - container.image=${_CLOUDSDK_COMPUTE_ZONE}-docker.pkg.dev/$PROJECT_ID/demo/demo
+      - container.image=${_CLOUDSDK_COMPUTE_ZONE}-docker.pkg.dev/${PROJECT_ID}/demo/demo
       - --set
       - container.tag=${COMMIT_SHA}
       - ./k8s/demo
